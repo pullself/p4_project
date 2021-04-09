@@ -80,7 +80,7 @@ control IPv4(inout headers hdr,
             hdr.protection.proto = TYPE_IP_IP; // 赋值负载协议类型为ip
 
             // 更新保护序列
-            protection.next_seq.write((bit<32>) id, next_seq + 1);
+            protection_next_seq.write((bit<32>) id, next_seq + 1);
         }
 
         // 将ipv4的报文复制给隧道
@@ -124,7 +124,7 @@ control IPv4(inout headers hdr,
         // 待解决
         if(hdr.protection_reset.isValid() && hdr.protection_reset.device_type == 0) {
             @atomic {
-                protected_next_seq.write((bit<32>) hdr.protection_reset.conn_id, 0);
+                protection_next_seq.write((bit<32>) hdr.protection_reset.conn_id, 0);
             }
         }
         else if(!l3_match_to_index.apply().hit) {

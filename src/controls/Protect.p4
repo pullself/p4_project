@@ -1,7 +1,7 @@
 /** Protect.p4
   * 数据报选择控制
   */
-control Protetct(inout headers hdr,
+control Protect(inout headers hdr,
                  inout metadata meta,
                  inout standard_metadata_t standard_metadata) {
     

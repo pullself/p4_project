@@ -17,7 +17,7 @@ control ingress(inout headers hdr,
 			ipv4_c.apply(hdr, meta, standard_metadata);
         }
         // 拓扑发现报文
-        else if(hdr.ethernet.etherType == TYPE_TOP_DISCOVER) {
+        else if(hdr.ethernet.etherType == TYPE_DISCOVER) {
             topology_c.apply(hdr, meta, standard_metadata);
         }
         // 保护报文或是目的点保护重置报文

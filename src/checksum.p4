@@ -4,7 +4,7 @@ control verifyChecksum(inout headers hdr, inout metadata meta) {
         verify_checksum(
         hdr.ipv4.isValid(), { hdr.ipv4.version,
         		 hdr.ipv4.ihl,
-        		 hdr.ipv4.diffserv,
+        		 hdr.ipv4.diffServ,
         		 hdr.ipv4.totalLen,
         		 hdr.ipv4.identification,
         		 hdr.ipv4.flags,
@@ -13,7 +13,7 @@ control verifyChecksum(inout headers hdr, inout metadata meta) {
         		 hdr.ipv4.protocol,
         		 hdr.ipv4.srcAddr,
         		 hdr.ipv4.dstAddr },
-        hdr.ipv4.hdrChecksum,
+        hdr.ipv4.hdrCheckSum,
         HashAlgorithm.csum16);
     }
 }
@@ -25,7 +25,7 @@ control createChecksum(inout headers  hdr, inout metadata meta) {
             hdr.ipv4.isValid(),
                 { hdr.ipv4.version,
               hdr.ipv4.ihl,
-              hdr.ipv4.diffserv,
+              hdr.ipv4.diffServ,
               hdr.ipv4.totalLen,
               hdr.ipv4.identification,
               hdr.ipv4.flags,
@@ -34,7 +34,7 @@ control createChecksum(inout headers  hdr, inout metadata meta) {
               hdr.ipv4.protocol,
               hdr.ipv4.srcAddr,
               hdr.ipv4.dstAddr },
-            hdr.ipv4.hdrChecksum,
+            hdr.ipv4.hdrCheckSum,
             HashAlgorithm.csum16);
 
         }
