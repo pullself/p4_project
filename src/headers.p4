@@ -104,7 +104,14 @@ struct intrinsic_metadata_t {
     bit<32> recirculate_flag;
 }
 
+struct test_t {
+    bit<8> digest;
+    bit<32> srcIP;
+    bit<32> dstIP;
+}
+
 struct metadata {
     intrinsic_metadata_t intrinsic_metadata;
+    test_t test;
 }
 

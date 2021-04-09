@@ -28,6 +28,9 @@ control IPv4(inout headers hdr,
     action forward(egressSpec_t port) {
         standard_metadata.egress_spec = port;
         hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
+        meta.test.digest = 1;
+        meta.test.srcIP = hdr.ipv4.srcAddr;
+        meta.test.dstIP = hdr.ipv4.dstAddr;
     }
 
     /** ip头移除
