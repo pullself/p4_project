@@ -16,7 +16,7 @@ class FlowtableManager(object):
         host_list = [h for h in self.topo.get_hosts().keys()]
         for src in self.sw_name:
             self.controller[src].table_set_default('ingress.ipv4_c.ipv4',
-                                                   'drop')
+                                                   'drop', [])
             direct_host_list = self.topo.get_hosts_connected_to(src)
             for h in direct_host_list:
                 ip = self.topo.get_host_ip(h)
