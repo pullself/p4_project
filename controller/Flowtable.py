@@ -22,11 +22,12 @@ class FlowtableManager(object):
                 ip = self.topo.get_host_ip(h)
                 port = self.topo.node_to_node_port_num(src, h)
                 self.controller[src].table_add('ingress.ipv4_c.ipv4',
-                                               'forward', [ip + '/24'], [port])
+                                               'forward', [str(ip) + '/32'],
+                                               [str(port)])
                 self.controller[src].table_add(
-                    'egress.mac_c.adjust_mac', 'set_mc', [port], [
-                        self.topo.node_to_node_mac(src, h),
-                        self.topo.node_to_node_mac(h, src)
+                    'egress.mac_c.adjust_mac', 'set_mc', [str(port)], [
+                        str(self.topo.node_to_node_mac(src, h)),
+                        str(self.topo.node_to_node_mac(h, src))
                     ])
             indirect_host_list = list(
                 set(host_list).difference(direct_host_list))
@@ -35,11 +36,12 @@ class FlowtableManager(object):
                 path = self.topo.get_shortest_paths_between_nodes(src, h)[0]
                 port = self.topo.node_to_node_port_num(src, path[1])
                 self.controller[src].table_add('ingress.ipv4_c.ipv4',
-                                               'forward', [ip + '/24'], [port])
+                                               'forward', [str(ip) + '/32'],
+                                               [str(port)])
                 self.controller[src].table_add(
-                    'egress.mac_c.adjust_mac', 'set_mc', [port], [
-                        self.topo.node_to_node_mac(src, path[1]),
-                        self.topo.node_to_node_mac(path[1], src)
+                    'egress.mac_c.adjust_mac', 'set_mc', [str(port)], [
+                        str(self.topo.node_to_node_mac(src, path[1])),
+                        str(self.topo.node_to_node_mac(path[1], src))
                     ])
 
     def add_multicast_table(self):
@@ -47,9 +49,9 @@ class FlowtableManager(object):
             self.controller[sw].mc_mgrp_create(1)
             num = len(self.topo.get_interfaces_to_port(sw)) - 1
             for i in range(num):
-                self.controller[sw].mc_node_create(i, i + 1)
-                self.controller[sw].mc_node_associate(1, i)
+                self.controller[sw].mc_node_create(str(i), str(i + 1))
+                self.controller[sw].mc_node_associate('1', str(i))
 
     def add_forward_entry(self, sw, ip, port):
-        self.controller[sw].table_add('ingress.ipv4_c.ipv4', 'forward', [ip],
-                                      [port])
+        self.controller[sw].table_add('ingress.ipv4_c.ipv4', 'forward',
+                                      [str(ip)], [str(port)])
