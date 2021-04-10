@@ -11,8 +11,8 @@ class Controller(object):
         self.manager = FlowtableManager()
 
     def run(self):
-        FlowtableManager.add_forward_table()
-        FlowtableManager.add_multicast_table()
+        self.manager.add_forward_table()
+        self.manager.add_multicast_table()
 
 
 if __name__ == '__main__':
