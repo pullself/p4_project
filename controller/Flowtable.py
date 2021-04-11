@@ -54,14 +54,17 @@ class FlowtableManager(object):
             self.controller[sw].mc_mgrp_create('1')
             for i in range(int(comb(num, 2))):
                 self.controller[sw].mc_mgrp_create(str(i + 2))
+            port_list = []
             for i in range(num):
-                self.controller[sw].mc_node_create(str(i), str(i + 1))
-                self.controller[sw].mc_node_associate('1', str(i))
+                port_list.append(str(i + 1))
+            self.controller[sw].mc_node_create('0', port_list)
+            self.controller[sw].mc_node_associate('1', '0')
             n = 2
             for i in range(num):
                 for j in range(i + 1, num):
-                    self.controller[sw].mc_node_associate(str(n), str(i))
-                    self.controller[sw].mc_node_associate(str(n), str(j))
+                    port_list = [str(i + 1), str(j + 1)]
+                    self.controller[sw].mc_node_create(str(n - 1), port_list)
+                    self.controller[sw].mc_node_associate(str(n), str(n - 1))
                     n += 1
 
     def add_forward_entry(self, sw, ip, port):
