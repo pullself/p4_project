@@ -16,15 +16,15 @@ from p4utils.utils.sswitch_API import SimpleSwitchAPI
 
 
 class DigestController(object):
-    # digest控制器类
     def __init__(self, sw_name):
         self.sw_name = sw_name
         self.topo = Topology(db='topology.db')
         self.thrift_port = self.topo.get_thrift_port(sw_name)
         self.controller = SimpleSwitchAPI(self.thrift_port)
+        self.sub = None
+        self.flag = 1
 
     def recv_msg_digest(self, msg, offset, typ):
-        # 去除payload前的control header，然后发送ack
         topic, device_id, ctx_id, list_id, buffer_id, num = struct.unpack(
             "<iQiiQi", msg[:32])
         msg = msg[32:]
@@ -33,7 +33,6 @@ class DigestController(object):
         return num, msg
 
     def unpack_digest(self, msg, offset, typ, num):
-        # 解包payload
         data = list()
         for sub_message in range(num):
             data.append(struct.unpack(typ, msg[0:offset]))
@@ -49,11 +48,22 @@ class DigestController(object):
         return sub
 
     def run(self, offset, typ):
-        while True:
-            msg = self.digest_connect.recv()
-            num, msg = self.recv_msg_digest(msg)
-            res = self.unpack_digest(msg, offset, typ, num)
-            print(self.sw_name + ' message:', res)
+        while self.flag == 1:
+            self.sub = self.digest_connect()
+            try:
+                msg = self.sub.recv()
+            except:
+                pass
+            else:
+                num, msg = self.recv_msg_digest(msg)
+                res = self.unpack_digest(msg, offset, typ, num)
+                print(self.sw_name + ' message:', res)
+        print(self.sw_name + ' running is over')
+
+    def end(self):
+        self.flag = 2
+        self.sub.close()
+        print(self.sw_name + '\'sub is close')
 
 
 if __name__ == "__main__":
