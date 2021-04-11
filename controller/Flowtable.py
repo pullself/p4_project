@@ -59,12 +59,10 @@ class FlowtableManager(object):
                 self.controller[sw].mc_node_associate('1', str(i))
             n = 2
             for i in range(num):
-                for j in range(i+1,num):
+                for j in range(i + 1, num):
                     self.controller[sw].mc_node_associate(str(n), str(i))
                     self.controller[sw].mc_node_associate(str(n), str(j))
                     n += 1
-
-                
 
     def add_forward_entry(self, sw, ip, port):
         self.controller[sw].table_add('ingress.ipv4_c.ipv4', 'forward',
