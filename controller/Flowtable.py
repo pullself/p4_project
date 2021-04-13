@@ -84,7 +84,7 @@ class FlowtableManager(object):
 
     def add_l3_entry(self, sw, act=[], key=[]):
         try:
-            self.controller[sw].table_add('ingress.ipv4_c.l3_mathc_to_index',
+            self.controller[sw].table_add('ingress.ipv4_c.l3_match_to_index',
                                           'protect', key, act)
         except:
             print('add_l3_entry error')
