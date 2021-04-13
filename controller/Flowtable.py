@@ -19,7 +19,7 @@ class FlowtableManager(object):
         for src in self.sw_name:
             self.controller[src].table_set_default('ingress.ipv4_c.ipv4',
                                                    'drop', [])
-            direct_sw_list = self.topo.get_switch_connected_to(src)
+            direct_sw_list = self.topo.get_switches_connected_to(src)
             for sw in direct_sw_list:
                 port = self.topo.node_to_node_port_num(src, sw)
                 self.controller[src].table_add(
@@ -76,5 +76,15 @@ class FlowtableManager(object):
                     n += 1
 
     def add_forward_entry(self, sw, ip, port):
-        self.controller[sw].table_add('ingress.ipv4_c.ipv4', 'forward',
-                                      [str(ip)], [str(port)])
+        try:
+            self.controller[sw].table_add('ingress.ipv4_c.ipv4', 'forward',
+                                          [str(ip)], [str(port)])
+        except:
+            print('add_forward_entry error')
+
+    def add_l3_entry(self, sw, act=[], key=[]):
+        try:
+            self.controller[sw].table_add('ingress.ipv4_c.l3_mathc_to_index',
+                                          'protect', key, act)
+        except:
+            print('add_l3_entry error')

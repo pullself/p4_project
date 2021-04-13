@@ -1,7 +1,7 @@
 '''
 Digest.py: digest function for controller
 
-用于实现基本的nanomsg接收与处理功能，利用的是nanomsg的pubsub模式，交换机作为
+用于实现基本的nanomsg接收与处理功能，利用的是nanomsg的pubsub模式
 需要运行在python2.7或3.4环境下
 
 DigestController：用于实现一个消息控制类，具有建立连接，接受消息的功能
