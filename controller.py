@@ -23,7 +23,7 @@ class Controller(object):
     def cli(self):
         while True:
             cli = raw_input('Controller> ')
-            cmd = self.get_order(cli)
+            cmd = self.get_command(cli)
             if cmd[0] == 'exit':
                 for con in self.digest_thread.values():
                     con.end()
