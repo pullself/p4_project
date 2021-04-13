@@ -48,7 +48,7 @@ class Controller(object):
                     if cmd[1] == 'l3':
                         key = cmd[3:8]
                         act = cmd[8:]
-                        self.manager.add_l3_entry(cmd[2], act, key)
+                        self.manager.add_l3_to_entry(cmd[2], act, key)
                     elif cmd[1] == 'forward':
                         self.manager.add_forward_entry(cmd[2], cmd[3], cmd[4])
                 except:
