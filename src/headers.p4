@@ -6,10 +6,10 @@
 #define PKT_INSTANCE_TYPE_INGRESS_RECIRC 4
 #define PKT_INSTANCE_TYPE_REPLICATION 5
 #define PKT_INSTANCE_TYPE_RESUBMIT 6
-#define CONTROLLER_PORT 16 // 控制器端口
+#define CONTROLLER_PORT 16 // 默认控制器端口
 
 #define PROTECTION_STORAGE 8192 //保护序号容量
-#define SEQ_MAX 255 //待解决
+#define SEQ_MAX 255 //8bit的序列号上限
 
 // 地址规范
 typedef bit<9> egressSpec_t;
@@ -23,13 +23,13 @@ typedef bit<8> protectionSeq_t; // 保护序列类
 const bit<16> TYPE_IPV4 = 0x0800;
 const bit<16> TYPE_DISCOVER = 0xDD00;
 // (ETH)定义保护标头协议类号
-const bit<16> TYPE_PROTECTION = 0xDD01; //待解决
-const bit<16> TYPE_PROTECTION_RESET = 0xDD02; //待解决
+const bit<16> TYPE_PROTECTION = 0xDD01; //以太网协议字段下表明保护报头
+const bit<16> TYPE_PROTECTION_RESET = 0xDD02; //以太网协议字段下表明保护重置报文
 const bit<8> TYPE_TCP = 6;
 const bit<8> TYPE_UDP = 17;
 // (IP)定义保护规范下使用的协议类号
-const bit<8> TYPE_IP_PROTECTION = 0x8F; //待解决
-const bit<8> TYPE_IP_IP = 0x04; //待解决
+const bit<8> TYPE_IP_PROTECTION = 0x8F; //ip协议字段下表明保护报头
+const bit<8> TYPE_IP_IP = 0x04; //protection协议字段下表明ip报头
 
 
 // 拓扑发现 header
@@ -93,7 +93,7 @@ struct headers {
     topology_discover_t topology;
 }
 
-// 个人metadata 待解决
+// 个人metadata
 struct intrinsic_metadata_t {
     bit<48> ingress_global_timestamp;
     bit<48> egress_global_timestamp;

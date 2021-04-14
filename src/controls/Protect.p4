@@ -26,7 +26,7 @@ control Protect(inout headers hdr,
                 protection_assumed_next_seq.read(seq_assumed, (bit<32>)hdr.protection.conn_id);
                 bit<1> accepted = 0;
 
-                // 待解决
+                // 接收窗口，用来避免重复收取相同的包
                 if((seq_in >= seq_assumed) && ((seq_in - seq_assumed) <= (SEQ_MAX / 2))){
                     accepted = 1;
                 }

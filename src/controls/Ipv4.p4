@@ -121,7 +121,7 @@ control IPv4(inout headers hdr,
     } 
 
     apply {
-        // 待解决
+        // 重置连接的序列号
         if(hdr.protection_reset.isValid() && hdr.protection_reset.device_type == 0) {
             @atomic {
                 protection_next_seq.write((bit<32>) hdr.protection_reset.conn_id, 0);
@@ -130,9 +130,7 @@ control IPv4(inout headers hdr,
         else if(!l3_match_to_index.apply().hit) {
             // l3_match_to_index的表未命中时，执行常规的ip转发
             if(protected_services.apply().hit) {
-                /** 当前流表需要对指定流进行保护
-                  * clone3的第一个参数在用于ingress时默认为CloneType.I2E
-                  */
+                // 当前流量若预期受到保护，会将该流量发送给控制器，由控制器决定是否实施保护
                 clone3<metadata>(CloneType.I2E, 1000, meta);
             }
             if(!ipv4.apply().hit) { 
