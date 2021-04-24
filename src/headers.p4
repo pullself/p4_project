@@ -77,7 +77,7 @@ header protection_t {
     bit<8>          proto;
 }
 
-// 待解决
+// 保护重置头
 header protection_reset_t {
     bit<32>         conn_id;
     bit<32>         device_type;
